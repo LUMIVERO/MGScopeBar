@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
+		3955302E162530A40003588B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3955302D162530A40003588B /* Cocoa.framework */; };
+		39553034162530A40003588B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 39553032162530A40003588B /* InfoPlist.strings */; };
+		39553038162530A40003588B /* mgscopebar.m in Sources */ = {isa = PBXBuildFile; fileRef = 39553037162530A40003588B /* mgscopebar.m */; };
+		3955305E162532C70003588B /* MGScopeBar.h in Headers */ = {isa = PBXBuildFile; fileRef = C9FB61170E8FF8810019B961 /* MGScopeBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3955305F162532C70003588B /* MGScopeBarDelegateProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = C9FB61190E8FF8810019B961 /* MGScopeBarDelegateProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		39553060162532C70003588B /* MGRecessedPopUpButtonCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C95B43CE0EB73CE3008EE468 /* MGRecessedPopUpButtonCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -26,6 +32,13 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* MGScopeBar_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGScopeBar_Prefix.pch; sourceTree = "<group>"; };
+		3955302C162530A40003588B /* MGScopeBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MGScopeBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3955302D162530A40003588B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		39553031162530A40003588B /* mgscopebar-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "mgscopebar-Info.plist"; sourceTree = "<group>"; };
+		39553033162530A40003588B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		39553035162530A40003588B /* mgscopebar-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mgscopebar-Prefix.pch"; sourceTree = "<group>"; };
+		39553036162530A40003588B /* mgscopebar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mgscopebar.h; sourceTree = "<group>"; };
+		39553037162530A40003588B /* mgscopebar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mgscopebar.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MGScopeBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MGScopeBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4DA52EE1428106700A9941B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -40,6 +53,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		39553028162530A40003588B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3955302E162530A40003588B /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D11072E0486CEB800E47090 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -73,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1107320486CEB800E47090 /* MGScopeBar.app */,
+				3955302C162530A40003588B /* MGScopeBar.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -84,6 +106,7 @@
 				C9FB61AA0E8FFE950019B961 /* ReadMe.txt */,
 				C9FB61160E8FF8590019B961 /* Classes */,
 				A4DA52F01428114D00A9941B /* Sample Application */,
+				3955302F162530A40003588B /* mgscopebar */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -104,9 +127,30 @@
 			isa = PBXGroup;
 			children = (
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				3955302D162530A40003588B /* Cocoa.framework */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3955302F162530A40003588B /* mgscopebar */ = {
+			isa = PBXGroup;
+			children = (
+				39553036162530A40003588B /* mgscopebar.h */,
+				39553037162530A40003588B /* mgscopebar.m */,
+				39553030162530A40003588B /* Supporting Files */,
+			);
+			path = mgscopebar;
+			sourceTree = "<group>";
+		};
+		39553030162530A40003588B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				39553031162530A40003588B /* mgscopebar-Info.plist */,
+				39553032162530A40003588B /* InfoPlist.strings */,
+				39553035162530A40003588B /* mgscopebar-Prefix.pch */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		A4DA52F01428114D00A9941B /* Sample Application */ = {
@@ -135,10 +179,41 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		39553029162530A40003588B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3955305E162532C70003588B /* MGScopeBar.h in Headers */,
+				3955305F162532C70003588B /* MGScopeBarDelegateProtocol.h in Headers */,
+				39553060162532C70003588B /* MGRecessedPopUpButtonCell.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		8D1107260486CEB800E47090 /* MGScopeBar */ = {
+		3955302B162530A40003588B /* MGScopeBar */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "MGScopeBar" */;
+			buildConfigurationList = 3955303B162530A40003588B /* Build configuration list for PBXNativeTarget "MGScopeBar" */;
+			buildPhases = (
+				39553027162530A40003588B /* Sources */,
+				39553028162530A40003588B /* Frameworks */,
+				39553029162530A40003588B /* Headers */,
+				3955302A162530A40003588B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MGScopeBar;
+			productName = mgscopebar;
+			productReference = 3955302C162530A40003588B /* MGScopeBar.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		8D1107260486CEB800E47090 /* MGScopeBarDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "MGScopeBarDemo" */;
 			buildPhases = (
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
@@ -148,7 +223,7 @@
 			);
 			dependencies = (
 			);
-			name = MGScopeBar;
+			name = MGScopeBarDemo;
 			productInstallPath = "$(HOME)/Applications";
 			productName = MGScopeBar;
 			productReference = 8D1107320486CEB800E47090 /* MGScopeBar.app */;
@@ -173,12 +248,21 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D1107260486CEB800E47090 /* MGScopeBar */,
+				8D1107260486CEB800E47090 /* MGScopeBarDemo */,
+				3955302B162530A40003588B /* MGScopeBar */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3955302A162530A40003588B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39553034162530A40003588B /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D1107290486CEB800E47090 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -192,6 +276,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		39553027162530A40003588B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39553038162530A40003588B /* mgscopebar.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D11072C0486CEB800E47090 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -222,9 +314,78 @@
 			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
+		39553032162530A40003588B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				39553033162530A40003588B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		39553039162530A40003588B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "mgscopebar/mgscopebar-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "mgscopebar/mgscopebar-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		3955303A162530A40003588B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "mgscopebar/mgscopebar-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "mgscopebar/mgscopebar-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -267,6 +428,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx10.7;
 			};
@@ -280,6 +442,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx10.7;
 			};
 			name = Release;
@@ -287,7 +450,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "MGScopeBar" */ = {
+		3955303B162530A40003588B /* Build configuration list for PBXNativeTarget "MGScopeBar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39553039162530A40003588B /* Debug */,
+				3955303A162530A40003588B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "MGScopeBarDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Debug */,
