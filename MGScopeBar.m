@@ -4,28 +4,28 @@
 //
 //  Copyright (c) 2008 Matt Gemmell
 //  All rights reserved.
-//  
-//  Redistribution and use in source and binary forms, with or without 
+//
+//  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
-//  
-//    Redistributions of source code must retain the above copyright notice, 
+//
+//    Redistributions of source code must retain the above copyright notice,
 //    this list of conditions and the following disclaimer.
 //
-//    Redistributions in binary form must reproduce the above copyright notice, 
-//    this list of conditions and the following disclaimer in the documentation 
+//    Redistributions in binary form must reproduce the above copyright notice,
+//    this list of conditions and the following disclaimer in the documentation
 //    and/or other materials provided with the distribution.
 //
-//  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-//  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
-//  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-//  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR 
-//  ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+//  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+//  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+//  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+//  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+//  ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
 //  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
 //  OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-//  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
+//  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+//  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//  
+//
 
 #import "MGScopeBar.h"
 #import "MGRecessedPopUpButtonCell.h"
@@ -84,7 +84,7 @@
 - (void)updateSelectedState:(BOOL)selected forItem:(NSString *)identifier inGroup:(NSInteger)groupNumber informDelegate:(BOOL)inform;
 - (NSButton *)buttonForItem:(NSString *)identifier inGroup:(NSInteger)groupNumber
 				  withTitle:(NSString *)title image:(NSImage *)image; // creates a new NSButton
-- (NSMenuItem *)menuItemForItem:(NSString *)identifier inGroup:(NSInteger)groupNumber 
+- (NSMenuItem *)menuItemForItem:(NSString *)identifier inGroup:(NSInteger)groupNumber
 					  withTitle:(NSString *)title image:(NSImage *)image; // creates a new NSMenuitem
 - (NSPopUpButton *)popupButtonForGroup:(NSDictionary *)group;
 - (void)setControl:(NSObject *)control forIdentifier:(NSString *)identifier inGroup:(NSInteger)groupNumber;
@@ -120,7 +120,7 @@
 		[_accessoryView removeFromSuperview];
 		_accessoryView = nil; // weak ref
 	}
-	
+
 }
 
 
@@ -131,17 +131,17 @@
 {
 	// Resize if necessary.
 	[self sizeToFit];
-	
+
 	// Remove any old objects.
 	if (_accessoryView) {
 		[_accessoryView removeFromSuperview];
 		_accessoryView = nil; // weak ref
 	}
-	
+
 	NSArray *subviews = [[self subviews] copy]; // so we don't mutate the collection we're iterating over.
 	[subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 	 // because copies are retained.
-	
+
 	_separatorPositions = nil;
 	_groups = nil;
 	_identifiers = nil;
@@ -150,21 +150,21 @@
 	_lastWidth = NSNotFound;
 	_totalGroupsWidth = 0;
 	_totalGroupsWidthForPopups = 0;
-	
+
 	// Configure contents via delegate.
 	if (self.delegate && [delegate conformsToProtocol:@protocol(MGScopeBarDelegate)]) {
 		NSInteger numGroups = [delegate numberOfGroupsInScopeBar:self];
-		
+
 		if (numGroups > 0) {
 			_separatorPositions = [[NSMutableArray alloc] initWithCapacity:numGroups];
 			_groups = [[NSMutableArray alloc] initWithCapacity:numGroups];
 			_identifiers = [[NSMutableDictionary alloc] initWithCapacity:0];
 			_selectedItems = [[NSMutableArray alloc] initWithCapacity:numGroups];
-			
+
 			int xCoord = SCOPE_BAR_H_INSET;
 			NSRect ctrlRect = NSZeroRect;
 			BOOL providesImages = [delegate respondsToSelector:@selector(scopeBar:imageForItem:inGroup:)];
-			
+
 			for (int groupNum = 0; groupNum < numGroups; groupNum++) {
 				// Add separator if appropriate.
 				BOOL addSeparator = (groupNum > 0); // default behavior.
@@ -174,13 +174,13 @@
 				if (addSeparator) {
 					[_separatorPositions addObject:[NSNumber numberWithInt:xCoord]];
 					xCoord += SCOPE_BAR_SEPARATOR_WIDTH + SCOPE_BAR_ITEM_SPACING;
-					
+
 					_totalGroupsWidth += SCOPE_BAR_SEPARATOR_WIDTH + SCOPE_BAR_ITEM_SPACING;
 					_totalGroupsWidthForPopups += SCOPE_BAR_SEPARATOR_WIDTH + SCOPE_BAR_ITEM_SPACING;
 				} else {
 					[_separatorPositions addObject:[NSNull null]];
 				}
-				
+
 				// Add label if appropriate.
 				NSString *groupLabel = [delegate scopeBar:self labelForGroup:groupNum];
 				NSTextField *labelField = nil;
@@ -199,13 +199,13 @@
 					ctrlRect.size = [labelField frame].size;
 					[labelField setFrame:ctrlRect];
 					[self addSubview:labelField];
-					
+
 					xCoord += ctrlRect.size.width + SCOPE_BAR_ITEM_SPACING;
-					
+
 					_totalGroupsWidth += ctrlRect.size.width + SCOPE_BAR_ITEM_SPACING;
 					_totalGroupsWidthForPopups += ctrlRect.size.width + SCOPE_BAR_ITEM_SPACING;
 				}
-				
+
 				// Create group information for use during interaction.
 				NSArray *identifiers = [delegate scopeBar:self itemIdentifiersForGroup:groupNum];
 				NSMutableArray *usedIdentifiers = [NSMutableArray arrayWithCapacity:[identifiers count]];
@@ -216,19 +216,19 @@
 					selMode = MGRadioSelectionMode;
 				}
 				NSMutableDictionary *groupInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-												  usedIdentifiers, GROUP_IDENTIFIERS, 
-												  buttons, GROUP_BUTTONS, 
-												  [NSNumber numberWithInt:selMode], GROUP_SELECTION_MODE, 
-												  [NSNumber numberWithBool:NO], GROUP_MENU_MODE, 
-												  [NSNumber numberWithBool:hasLabel], GROUP_HAS_LABEL, 
-												  [NSNumber numberWithBool:addSeparator], GROUP_HAS_SEPARATOR, 
+												  usedIdentifiers, GROUP_IDENTIFIERS,
+												  buttons, GROUP_BUTTONS,
+												  [NSNumber numberWithInt:selMode], GROUP_SELECTION_MODE,
+												  [NSNumber numberWithBool:NO], GROUP_MENU_MODE,
+												  [NSNumber numberWithBool:hasLabel], GROUP_HAS_LABEL,
+												  [NSNumber numberWithBool:addSeparator], GROUP_HAS_SEPARATOR,
 												  nil];
 				if (hasLabel) {
 					[groupInfo setObject:labelField forKey:GROUP_LABEL_FIELD];
 				}
 				[_groups addObject:groupInfo];
 				[_selectedItems addObject:[NSMutableArray arrayWithCapacity:0]];
-				
+
 				// Add buttons for this group.
 				float widestButtonWidth = 0;
 				float totalButtonsWidth = 0;
@@ -239,23 +239,23 @@
 						// Identifier already used for this group; skip it.
 						continue;
 					}
-					
+
 					NSString *title = [delegate scopeBar:self titleOfItem:itemID inGroup:groupNum];
 					NSImage *image = nil;
 					if (providesImages) {
 						image = [delegate scopeBar:self imageForItem:itemID inGroup:groupNum];
 					}
 					NSButton *button = [self buttonForItem:itemID inGroup:groupNum withTitle:title image:image];
-					
+
 					ctrlRect = [button frame];
 					ctrlRect.origin.x = xCoord;
 					[button setFrame:ctrlRect];
 					[self addSubview:button];
 					[buttons addObject:button];
-					
+
 					// Adjust x-coordinate for next item in the bar.
 					xCoord += ctrlRect.size.width + SCOPE_BAR_ITEM_SPACING;
-					
+
 					// Update total and widest button widths.
 					if (totalButtonsWidth > 0) {
 						// Add spacing before this item, since it's not the first in the group.
@@ -266,27 +266,27 @@
 						widestButtonWidth = ctrlRect.size.width;
 					}
 				}
-				
+
 				// Add the accumulated buttons' width and the widest button's width to groupInfo.
 				[groupInfo setObject:[NSNumber numberWithFloat:totalButtonsWidth] forKey:GROUP_TOTAL_BUTTONS_WIDTH];
 				[groupInfo setObject:[NSNumber numberWithFloat:widestButtonWidth] forKey:GROUP_WIDEST_BUTTON_WIDTH];
-				
+
 				_totalGroupsWidth += totalButtonsWidth;
 				_totalGroupsWidthForPopups += widestButtonWidth + MENU_PADDING;
-				
+
 				float cumulativeWidth = _totalGroupsWidth + (groupNum * SCOPE_BAR_ITEM_SPACING);
 				[groupInfo setObject:[NSNumber numberWithFloat:cumulativeWidth] forKey:GROUP_CUMULATIVE_WIDTH];
-				
+
 				// If this is a radio-mode group, select the first item automatically.
 				if (selMode == MGRadioSelectionMode) {
 					[self updateSelectedState:YES forItem:[identifiers objectAtIndex:0] inGroup:groupNum informDelegate:YES];
 				}
 			}
-			
+
 			_totalGroupsWidth += ((numGroups - 1) * SCOPE_BAR_ITEM_SPACING);
 			_totalGroupsWidthForPopups += ((numGroups - 1) * SCOPE_BAR_ITEM_SPACING);
 		}
-		
+
 		// Add accessoryView, if provided.
 		if ([delegate respondsToSelector:@selector(accessoryViewForScopeBar:)]) {
 			_accessoryView = [delegate accessoryViewForScopeBar:self];
@@ -296,30 +296,30 @@
 				if (mask & NSViewMaxXMargin) {
 					mask &= ~NSViewMaxXMargin;
 				}
-				
+
 				// Add NSViewMinXMargin flag to resizing mask, if not present.
 				if (!(mask & NSViewMinXMargin)) {
 					mask = (mask | NSViewMinXMargin);
 				}
-				
+
 				// Update view sizing mask.
 				[_accessoryView setAutoresizingMask:mask];
-				
+
 				// Adjust frame appropriately.
 				NSRect frame = [_accessoryView frame];
 				frame.origin.x = round(NSMaxX([self bounds]) - (frame.size.width + SCOPE_BAR_H_INSET));
 				frame.origin.y = round(((SCOPE_BAR_HEIGHT - frame.size.height) / 2.0));
 				[_accessoryView setFrame:frame];
-				
+
 				// Add as subview.
 				[self addSubview:_accessoryView];
 			}
 		}
-		
+
 		// Layout subviews appropriately.
 		[self adjustSubviews];
 	}
-	
+
 	[self setNeedsDisplay:YES];
 }
 
@@ -344,43 +344,43 @@
 	if (!_smartResizeEnabled) {
 		return;
 	}
-	
+
 	/*
 	 We need to work out which groups we can show fully expanded, and which must be collapsed into popup-buttons.
 	 Any kind of frame-change may have happened, so we need to take care to create or remove buttons or popup-buttons as needed.
 	*/
-	
+
 	// Bail out if we have nothing to do.
 	if (!_groups || [_groups count] == 0) {
 		return;
 	}
-	
+
 	// Obtain current width of view.
 	float viewWidth = [self bounds].size.width;
-	
+
 	// Abort if there hasn't been any genuine change in width.
 	if ((viewWidth == _lastWidth) && (_lastWidth != NSNotFound)) {
 		return;
 	}
-	
+
 	// Determine whether we got narrower or wider.
 	float narrower = ((_lastWidth == NSNotFound) || (viewWidth < _lastWidth));
-	
+
 	// Find width available for showing groups.
 	float availableWidth = viewWidth - (SCOPE_BAR_H_INSET * 2.0);
 	if (_accessoryView) {
 		// Account for _accessoryView, leaving a normal amount of spacing to the left of it.
 		availableWidth -= ([_accessoryView frame].size.width + SCOPE_BAR_ITEM_SPACING);
 	}
-	
+
 	BOOL shouldAdjustPopups = (availableWidth < _totalGroupsWidthForPopups);
 	NSInteger oldFirstCollapsedGroup = _firstCollapsedGroup;
-	
+
 	// Work out which groups we should now check for collapsibility/expandability.
 	NSEnumerator *groupsEnumerator = nil;
 	NSRange enumRange;
 	BOOL proceed = YES;
-	
+
 	if (narrower) {
 		// Got narrower, so work backwards from oldFirstCollapsedGroup (excluding that group, since it's already collapsed),
 		// checking to see if we need to collapse any more groups to the left.
@@ -390,9 +390,9 @@
 			enumRange.length = [_groups count];
 		}
 		groupsEnumerator = [[_groups subarrayWithRange:enumRange] reverseObjectEnumerator];
-		
+
 	} else {
-		// Got wider, so work forwards from oldFirstCollapsedGroup (including that group) checking to see if we can 
+		// Got wider, so work forwards from oldFirstCollapsedGroup (including that group) checking to see if we can
 		// expand any groups into full buttons.
 		enumRange = NSMakeRange(oldFirstCollapsedGroup, [_groups count] - oldFirstCollapsedGroup);
 		// If no groups were previously collapsed, we have nothing to do here.
@@ -403,7 +403,7 @@
 			groupsEnumerator = [[_groups subarrayWithRange:enumRange] objectEnumerator];
 		}
 	}
-	
+
 	// Get the current occupied width within this view.
 	float currentOccupiedWidth = 0;
 	NSDictionary *group = [_groups objectAtIndex:0];
@@ -420,7 +420,7 @@
 		NSTextField *label = (NSTextField *)[group objectForKey:GROUP_LABEL_FIELD];
 		leftLimit -= (SCOPE_BAR_ITEM_SPACING + [label frame].size.width);
 	}
-	
+
 	group = [_groups lastObject];
 	menuMode = [[group objectForKey:GROUP_MENU_MODE] boolValue];
 	NSButton *lastButton = nil;
@@ -431,7 +431,7 @@
 	}
 	float rightLimit = NSMaxX([lastButton frame]);
 	currentOccupiedWidth = rightLimit - leftLimit;
-	
+
 	// Work out whether we need to try collapsing groups at all, if we're narrowing.
 	// We have already handled the case of not requiring to expand groups if we're widening, above.
 	if (proceed && narrower) {
@@ -440,18 +440,18 @@
 			proceed = NO;
 		}
 	}
-	
+
 	if (proceed) {
 		// Disable screen updates.
 		NSDisableScreenUpdates();
-		
+
 		// See how many further groups we can expand or contract.
 		float theoreticalOccupiedWidth = currentOccupiedWidth;
 		for (NSDictionary *groupInfo in groupsEnumerator) {
 			BOOL complete = NO;
 			float expandedWidth = [[groupInfo objectForKey:GROUP_TOTAL_BUTTONS_WIDTH] floatValue];
 			float contractedWidth = [[groupInfo objectForKey:GROUP_WIDEST_BUTTON_WIDTH] floatValue] + MENU_PADDING;
-			
+
 			if (narrower) {
 				// We're narrowing. See if collapsing this group brings us within availableWidth.
 				if (((theoreticalOccupiedWidth - expandedWidth) + contractedWidth) <= availableWidth) {
@@ -459,7 +459,7 @@
 					complete = YES;
 				} // else, continue trying to to collapse groups.
 				theoreticalOccupiedWidth = ((theoreticalOccupiedWidth - expandedWidth) + contractedWidth);
-				
+
 			} else {
 				// We're widening. See if we can expand this group and still be within availableWidth.
 				if (((theoreticalOccupiedWidth - contractedWidth) + expandedWidth) > availableWidth) {
@@ -470,20 +470,20 @@
 				theoreticalOccupiedWidth = ((theoreticalOccupiedWidth - contractedWidth) + expandedWidth);
 				//NSLog(@"We can continue expanding");
 			}
-			
+
 			// Update _firstCollapsedGroup appropriately.
 			if (_firstCollapsedGroup == NSNotFound) {
 				_firstCollapsedGroup = ((narrower) ? [_groups count] : -1);
 				oldFirstCollapsedGroup = _firstCollapsedGroup;
 			}
 			_firstCollapsedGroup += ((narrower) ? -1 : 1);
-			
+
 			// Terminate if we now fit the available space as best we can.
 			if (complete) {
 				break;
 			}
 		}
-		
+
 		// Work out how many groups we need to actually change.
 		NSRange changedRange = NSMakeRange(0, [_groups count]);
 		BOOL adjusting = YES;
@@ -502,7 +502,7 @@
 			// _firstCollapsedGroup and oldFirstCollapsedGroup are the same; nothing needs changed.
 			adjusting = NO;
 		}
-		
+
 		// If a change is required, ensure that each group is expanded or contracted as appropriate.
 		if (adjusting || shouldAdjustPopups) {
 			//NSLog(@"Got %@ - modifying groups %@", ((narrower) ? @"narrower" : @"wider"), NSStringFromRange(changedRange));
@@ -510,7 +510,7 @@
 			if (adjusting) {
 				for (NSUInteger i = changedRange.location; i < NSMaxRange(changedRange); i++) {
 					NSMutableDictionary *groupInfo = [_groups objectAtIndex:i];
-					
+
 					if (nextXCoord == NSNotFound) {
 						BOOL menuMode = [[groupInfo objectForKey:GROUP_MENU_MODE] boolValue];
 						NSButton *firstButton = nil;
@@ -532,13 +532,13 @@
 							nextXCoord += (labelWidth + SCOPE_BAR_ITEM_SPACING);
 						}
 					}
-					
+
 					NSPopUpButton *popup = nil;
 					if (narrower) {
 						// Remove buttons.
 						NSArray *buttons = [groupInfo objectForKey:GROUP_BUTTONS];
 						[buttons makeObjectsPerformSelector:@selector(removeFromSuperview)];
-						
+
 						// Create popup and add it to this view.
 						popup = [self popupButtonForGroup:groupInfo];
 						NSRect popupFrame = [popup frame];
@@ -547,16 +547,16 @@
 						[groupInfo setObject:popup forKey:GROUP_POPUP_BUTTON];
 						[self addSubview:popup positioned:NSWindowBelow relativeTo:_accessoryView];
 						nextXCoord += popupFrame.size.width;
-						
+
 						// Ensure popup has appropriate title.
 						[self updateMenuTitleForGroupAtIndex:i];
-						
+
 					} else {
 						// Remove and release popup.
 						popup = [groupInfo objectForKey:GROUP_POPUP_BUTTON];
 						[popup removeFromSuperview];
 						[groupInfo removeObjectForKey:GROUP_POPUP_BUTTON];
-						
+
 						// Replace menuItems with buttons.
 						float buttonX = nextXCoord;
 						NSMutableArray *menuItems = [groupInfo objectForKey:GROUP_BUTTONS];
@@ -564,9 +564,9 @@
 						for (int i = 0; i < [menuItems count]; i++) {
 							NSMenuItem *menuItem = [menuItems objectAtIndex:i];
 							NSString *itemIdentifier = [menuItem representedObject];
-							NSButton *button = [self buttonForItem:itemIdentifier 
-														   inGroup:[menuItem tag] 
-														 withTitle:[menuItem title] 
+							NSButton *button = [self buttonForItem:itemIdentifier
+														   inGroup:[menuItem tag]
+														 withTitle:[menuItem title]
 															 image:[menuItem image]];
 							NSRect buttonFrame = [button frame];
 							buttonFrame.origin.x = buttonX;
@@ -580,12 +580,12 @@
 						}
 						nextXCoord = (buttonX - SCOPE_BAR_ITEM_SPACING);
 					}
-					
+
 					// Update GROUP_MENU_MODE for this group.
 					[groupInfo setObject:[NSNumber numberWithBool:narrower] forKey:GROUP_MENU_MODE];
 				}
 			}
-			
+
 			// Modify positions/sizes of groups and separators as required.
 			float startIndex = MIN(changedRange.location, _firstCollapsedGroup);
 			float xCoord = 0;
@@ -596,20 +596,20 @@
 			for (int i = startIndex; i < [_groups count]; i++) {
 				NSDictionary *groupInfo = [_groups objectAtIndex:i];
 				BOOL menuMode = [[groupInfo objectForKey:GROUP_MENU_MODE] boolValue];
-				
+
 				// Further contract or expand popups if appropriate.
 				if (shouldAdjustPopups) {
 					float fullPopupWidth = [[groupInfo objectForKey:GROUP_WIDEST_BUTTON_WIDTH] floatValue] + MENU_PADDING;
 					float popupWidth = fullPopupWidth - perGroupDelta;
 					popupWidth = MAX(popupWidth, MENU_MIN_WIDTH);
 					popupWidth = MIN(popupWidth, fullPopupWidth);
-					
+
 					NSPopUpButton *button = [groupInfo objectForKey:GROUP_POPUP_BUTTON];
 					NSRect buttonRect = [button frame];
 					buttonRect.size.width = popupWidth;
 					[button setFrame:buttonRect];
 				}
-				
+
 				// Reposition groups appropriately.
 				if (i > startIndex) {
 					// Reposition separator if present.
@@ -617,7 +617,7 @@
 						[_separatorPositions replaceObjectAtIndex:i withObject:[NSNumber numberWithInt:xCoord]];
 						xCoord += (SCOPE_BAR_SEPARATOR_WIDTH + SCOPE_BAR_ITEM_SPACING);
 					}
-					
+
 					// Reposition label if present.
 					if ([[groupInfo objectForKey:GROUP_HAS_LABEL] boolValue]) {
 						NSTextField *label = [groupInfo objectForKey:GROUP_LABEL_FIELD];
@@ -626,7 +626,7 @@
 						[label setFrame:labelFrame];
 						xCoord = NSMaxX(labelFrame) + SCOPE_BAR_ITEM_SPACING;
 					}
-					
+
 					// Reposition buttons or popup.
 					if (menuMode) {
 						NSPopUpButton *button = [groupInfo objectForKey:GROUP_POPUP_BUTTON];
@@ -634,7 +634,7 @@
 						buttonRect.origin.x = xCoord;
 						[button setFrame:buttonRect];
 						xCoord = NSMaxX(buttonRect) + SCOPE_BAR_ITEM_SPACING;
-						
+
 					} else {
 						NSArray *buttons = [groupInfo objectForKey:GROUP_BUTTONS];
 						for (NSButton *button in buttons) {
@@ -644,7 +644,7 @@
 							xCoord = NSMaxX(buttonRect) + SCOPE_BAR_ITEM_SPACING;
 						}
 					}
-					
+
 				} else {
 					// Set up initial value of xCoord.
 					NSButton *button = nil;
@@ -656,7 +656,7 @@
 					xCoord = NSMaxX([button frame]) + SCOPE_BAR_ITEM_SPACING;
 				}
 			}
-			
+
 			// Reset _firstCollapsedGroup to NSNotFound if necessary.
 			if (!narrower) {
 				if (_firstCollapsedGroup >= [_groups count]) {
@@ -664,11 +664,11 @@
 				}
 			}
 		}
-		
+
 		// Re-enable screen updates.
 		NSEnableScreenUpdates();
 	}
-	
+
 	// Take note of our width for comparison next time.
 	_lastWidth = viewWidth;
 }
@@ -691,12 +691,12 @@
 			button = (NSButton *)element;
 		}
 	}
-	
+
 	return button;
 }
 
 
-- (NSButton *)buttonForItem:(NSString *)identifier inGroup:(NSInteger)groupNumber 
+- (NSButton *)buttonForItem:(NSString *)identifier inGroup:(NSInteger)groupNumber
 				  withTitle:(NSString *)title image:(NSImage *)image
 {
 	NSRect ctrlRect = NSMakeRect(0, 0, 50, 20); // arbitrary size; will be resized later.
@@ -720,14 +720,14 @@
 	ctrlRect = [button frame];
 	ctrlRect.origin.y = floor(([self frame].size.height - ctrlRect.size.height) / 2.0);
 	[button setFrame:ctrlRect];
-	
+
 	[self setControl:button forIdentifier:identifier inGroup:groupNumber];
-	
+
 	return button;
 }
 
 
-- (NSMenuItem *)menuItemForItem:(NSString *)identifier inGroup:(NSInteger)groupNumber 
+- (NSMenuItem *)menuItemForItem:(NSString *)identifier inGroup:(NSInteger)groupNumber
 					  withTitle:(NSString *)title image:(NSImage *)image
 {
 	NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(scopeButtonClicked:) keyEquivalent:@""];
@@ -735,9 +735,9 @@
 	[menuItem setImage:image];
 	[menuItem setRepresentedObject:identifier];
 	[menuItem setTag:groupNumber];
-	
+
 	[self setControl:menuItem forIdentifier:identifier inGroup:groupNumber];
-	
+
 	return menuItem;
 }
 
@@ -747,18 +747,18 @@
 	float popWidth = floor([[group objectForKey:GROUP_WIDEST_BUTTON_WIDTH] floatValue] + MENU_PADDING);
 	NSRect popFrame = NSMakeRect(0, 0, popWidth, 20); // arbitrary height.
 	NSPopUpButton *popup = [[NSPopUpButton alloc] initWithFrame:popFrame pullsDown:NO];
-	
+
 	// Since we're not using the selected item's title, we need to specify a NSMenuItem for the title.
 	BOOL multiSelect = ([[group objectForKey:GROUP_SELECTION_MODE] intValue] == MGMultipleSelectionMode);
 	if (multiSelect) {
 		MGRecessedPopUpButtonCell *cell = [[MGRecessedPopUpButtonCell alloc] initTextCell:@"" pullsDown:NO];
 		[popup setCell:cell];
-		
+
 		[[popup cell] setUsesItemFromMenu:NO];
 		NSMenuItem *titleItem = [[NSMenuItem alloc] init];
 		[[popup cell] setMenuItem:titleItem];
 	}
-	
+
 	// Configure appearance and behaviour.
 	[popup setFont:[NSFont systemFontOfSize:SCOPE_BAR_FONTSIZE]];
 	[popup setBezelStyle:NSRecessedBezelStyle];
@@ -768,21 +768,21 @@
 	[[popup cell] setAltersStateOfSelectedItem:NO];
 	[[popup cell] setArrowPosition:NSPopUpArrowAtBottom];
 	[popup setPreferredEdge:NSMaxXEdge];
-	
+
 	// Add appropriate items.
 	[popup removeAllItems];
 	NSMutableArray *buttons = [group objectForKey:GROUP_BUTTONS];
 	for (int i = 0; i < [buttons count]; i++) {
 		NSButton *button = (NSButton *)[buttons objectAtIndex:i];
-		NSMenuItem *menuItem = [self menuItemForItem:[[button cell] representedObject] 
-											 inGroup:[button tag] 
-										   withTitle:[button title] 
+		NSMenuItem *menuItem = [self menuItemForItem:[[button cell] representedObject]
+											 inGroup:[button tag]
+										   withTitle:[button title]
 											   image:[button image]];
 		[menuItem setState:[button state]];
 		[buttons replaceObjectAtIndex:i withObject:menuItem];
 		[[popup menu] addItem:menuItem];
 	}
-	
+
 	// Vertically center the popup within our frame.
 	if (!multiSelect) {
 		[popup sizeToFit];
@@ -790,7 +790,7 @@
 	popFrame = [popup frame];
 	popFrame.origin.y = ceil(([self frame].size.height - popFrame.size.height) / 2.0);
 	[popup setFrame:popFrame];
-	
+
 	return popup;
 }
 
@@ -800,13 +800,13 @@
 	if (!_identifiers) {
 		_identifiers = [[NSMutableDictionary alloc] initWithCapacity:0];
 	}
-	
+
 	NSMutableArray *identArray = [_identifiers objectForKey:identifier];
 	if (!identArray) {
 		identArray = [[NSMutableArray alloc] initWithCapacity:groupNumber + 1];
 		[_identifiers setObject:identArray forKey:identifier];
 	}
-	
+
 	NSUInteger count = [identArray count];
 	if (groupNumber >= count) {
 		// Pad identArray with nulls if appropriate, so this control lies at index groupNumber.
@@ -824,11 +824,11 @@
 {
 	// Ensure that this group's popup (if present) has the correct title,
 	// accounting for the group's selection-mode and selected item(s).
-	
+
 	if (groupNumber >= [_groups count]) {
 		return;
 	}
-	
+
 	NSDictionary *group = [_groups objectAtIndex:groupNumber];
 	if (group) {
 		NSPopUpButton *popup = [group objectForKey:GROUP_POPUP_BUTTON];
@@ -839,12 +839,12 @@
 				// No items selected.
 				[popup setTitle:POPUP_TITLE_EMPTY_SELECTION];
 				[[[popup cell] menuItem] setImage:nil];
-				
+
 			} else if (numSelected > 1) {
 				// Multiple items selected.
 				[popup setTitle:POPUP_TITLE_MULTIPLE_SELECTION];
 				[[[popup cell] menuItem] setImage:nil];
-				
+
 			} else {
 				// One item selected.
 				NSString *identifier = [groupSelection objectAtIndex:0];
@@ -861,7 +861,7 @@
 					[[[popup cell] menuItem] setImage:[item image]];
 				}
 			}
-			
+
 			if (SCOPE_BAR_HIDE_POPUP_BG) {
 				BOOL hasBackground = [[popup cell] isBordered];
 				if (numSelected == 0 && hasBackground) {
@@ -878,19 +878,21 @@
 #pragma mark Drawing
 
 
-- (void)drawRect:(NSRect)rect
+// rendering of the scopebar background is disabled for our purposes
+
+- (void)DISABLEDdrawRect:(NSRect)rect
 {
     // Draw gradient background.
-	NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:SCOPE_BAR_START_COLOR_GRAY 
-														  endingColor:SCOPE_BAR_END_COLOR_GRAY];
+	NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:SCOPE_BAR_START_COLOR_GRAY
+														 endingColor:SCOPE_BAR_END_COLOR_GRAY];
 	[gradient drawInRect:[self bounds] angle:90.0];
-	
+
 	// Draw border.
 	NSRect lineRect = [self bounds];
 	lineRect.size.height = SCOPE_BAR_BORDER_WIDTH;
 	[SCOPE_BAR_BORDER_COLOR set];
 	NSRectFill(lineRect);
-	
+
 	// Draw separators.
 	if ([_separatorPositions count] > 0) {
 		[SCOPE_BAR_SEPARATOR_COLOR set];
@@ -939,18 +941,18 @@
 		NSDictionary *group = [_groups objectAtIndex:groupNumber];
 		BOOL nowSelected = selected;
 		BOOL informDelegate = YES;
-		
+
 		if (group) {
 			NSDisableScreenUpdates();
-			
+
 			// We found the group which this item belongs to. Obtain selection-mode and identifiers.
 			MGScopeBarGroupSelectionMode selMode = [[group objectForKey:GROUP_SELECTION_MODE] intValue];
 			BOOL radioMode = (selMode == MGRadioSelectionMode);
-			
+
 			if (radioMode) {
 				// This is a radio-mode group. Ensure this item isn't already selected.
 				NSArray *groupSelections = [[_selectedItems objectAtIndex:groupNumber] copy];
-				
+
 				if (nowSelected) {
 					// Before selecting this item, we first need to deselect any other selected items in this group.
 					for (NSString *selectedIdentifier in groupSelections) {
@@ -965,15 +967,15 @@
 					}
 				}
 			}
-			
+
 			// Change selected state of this item.
 			[self updateSelectedState:nowSelected forItem:identifier inGroup:groupNumber informDelegate:informDelegate];
-			
+
 			// Update popup-menu's title if appropriate.
 			if ([[group objectForKey:GROUP_MENU_MODE] boolValue]) {
 				[self updateMenuTitleForGroupAtIndex:groupNumber];
 			}
-			
+
 			NSEnableScreenUpdates();
 		}
 	}
@@ -983,13 +985,13 @@
 - (void)updateSelectedState:(BOOL)selected forItem:(NSString *)identifier inGroup:(NSInteger)groupNumber informDelegate:(BOOL)inform
 {
 	// This method simply updates the selected state of the item's control, maintains selectedItems, and informs the delegate.
-	// All management of dependencies (such as deselecting other selected items in a radio-selection-mode group) is performed 
+	// All management of dependencies (such as deselecting other selected items in a radio-selection-mode group) is performed
 	// in the setSelected:forItem:inGroup: method.
-	
+
 	// Determine whether we can inform the delegate about this change.
 	SEL stateChangedSel = @selector(scopeBar:selectedStateChanged:forItem:inGroup:);
 	BOOL responds = (delegate && [delegate respondsToSelector:stateChangedSel]);
-	
+
 	// Ensure selected status of item's control reflects desired value.
 	NSButton *button = [self getButtonForItem:identifier inGroup:groupNumber];
 	if (selected && [button state] == NSOffState) {
@@ -997,7 +999,7 @@
 	} else if (!selected && [button state] != NSOffState) {
 		[button setState:NSOffState];
 	}
-	
+
 	// Maintain _selectedItems appropriately.
 	if (_selectedItems && [_selectedItems count] > groupNumber) {
 		NSMutableArray *groupSelections = [_selectedItems objectAtIndex:groupNumber];
@@ -1008,7 +1010,7 @@
 			[groupSelections removeObject:identifier];
 		}
 	}
-	
+
 	// Inform delegate about this change if possible.
 	if (inform && responds) {
 		[delegate scopeBar:self selectedStateChanged:selected forItem:identifier inGroup:groupNumber];
