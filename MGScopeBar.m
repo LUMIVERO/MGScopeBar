@@ -879,11 +879,13 @@
 #pragma mark Drawing
 
 
-- (void)drawRect:(NSRect)rect
+// rendering of the scopebar background is disabled for our purposes
+
+- (void)DISABLEDdrawRect:(NSRect)rect
 {
     // Draw gradient background.
 	NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:SCOPE_BAR_START_COLOR_GRAY
-														  endingColor:SCOPE_BAR_END_COLOR_GRAY];
+														 endingColor:SCOPE_BAR_END_COLOR_GRAY];
 	[gradient drawInRect:[self bounds] angle:90.0];
 
 	// Draw border.
