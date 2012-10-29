@@ -16,6 +16,8 @@
 		39553060162532C70003588B /* MGRecessedPopUpButtonCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C95B43CE0EB73CE3008EE468 /* MGRecessedPopUpButtonCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3955306C16253DA20003588B /* MGScopeBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C9FB61180E8FF8810019B961 /* MGScopeBar.m */; };
 		3955306D16253DA60003588B /* MGRecessedPopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C95B43CF0EB73CE3008EE468 /* MGRecessedPopUpButtonCell.m */; };
+		39644C99163E2B270005D036 /* MGScopeBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C9FB61180E8FF8810019B961 /* MGScopeBar.m */; };
+		39644C9B163E2B320005D036 /* MGRecessedPopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C95B43CF0EB73CE3008EE468 /* MGRecessedPopUpButtonCell.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -292,6 +294,8 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				C9FB61150E8FF8360019B961 /* AppController.m in Sources */,
+				39644C99163E2B270005D036 /* MGScopeBar.m in Sources */,
+				39644C9B163E2B320005D036 /* MGRecessedPopUpButtonCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

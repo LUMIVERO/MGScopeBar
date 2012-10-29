@@ -704,13 +704,13 @@
 	[button setTitle:title];
 	[[button cell] setRepresentedObject:identifier];
 	[button setTag:groupNumber];
-	[button setFont:[NSFont systemFontOfSize:SCOPE_BAR_FONTSIZE]];
+	[button setFont:[NSFont boldSystemFontOfSize:SCOPE_BAR_FONTSIZE]];
 	[button setTarget:self];
 	[button setAction:@selector(scopeButtonClicked:)];
 	[button setBezelStyle:NSRecessedBezelStyle];
 	[button setButtonType:NSPushOnPushOffButton];
 	[[button cell] setHighlightsBy:NSCellIsBordered | NSCellIsInsetButton];
-	[[button cell] setControlSize:NSMiniControlSize];
+	[[button cell] setControlSize:NSSmallControlSize];
 	[button setShowsBorderOnlyWhileMouseInside:YES];
 	if (image) {
 		[image setSize:NSMakeSize(SCOPE_BAR_BUTTON_IMAGE_SIZE, SCOPE_BAR_BUTTON_IMAGE_SIZE)];
