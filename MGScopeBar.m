@@ -1052,5 +1052,15 @@
 	}
 }
 
+#pragma mark - NVivo Extensions
+
+- (CGFloat)nviTotalGroupsWidth
+{
+	//
+	// NB: Need to add the inset, otherwise the width does not
+	// take into account the recessed button cell highlighting.
+	//
+	return _totalGroupsWidth + SCOPE_BAR_H_INSET;
+}
 
 @end

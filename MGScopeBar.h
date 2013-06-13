@@ -70,4 +70,10 @@
 
 - (BOOL) isItemSelectedWithIdentifier:(NSString*)identifier inGroup:(NSInteger)groupNumber;
 
+/**
+ * Returns the total width needed to show all groups as native-width popups
+ * (excluding padding and accessory).
+ */
+- (CGFloat)nviTotalGroupsWidth;
+
 @end
