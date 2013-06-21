@@ -32,7 +32,6 @@
 
 @interface MGScopeBar : NSView {
 @private
-	IBOutlet id <MGScopeBarDelegate, NSObject> __unsafe_unretained delegate; // weak ref.
 	NSMutableArray *_separatorPositions; // x-coords of separators, indexed by their group-number.
 	NSMutableArray *_groups; // groups of items.
 	NSView *_accessoryView; // weak ref since it's a subview.

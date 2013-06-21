@@ -96,7 +96,6 @@
 @implementation MGScopeBar
 
 
-@synthesize delegate;
 
 
 #pragma mark Setup and teardown
@@ -115,7 +114,7 @@
 
 - (void)dealloc
 {
-	delegate = nil;
+	_delegate = nil;
 	if (_accessoryView) {
 		[_accessoryView removeFromSuperview];
 		_accessoryView = nil; // weak ref
@@ -152,8 +151,8 @@
 	_totalGroupsWidthForPopups = 0;
 
 	// Configure contents via delegate.
-	if (self.delegate && [delegate conformsToProtocol:@protocol(MGScopeBarDelegate)]) {
-		NSInteger numGroups = [delegate numberOfGroupsInScopeBar:self];
+	if (self.delegate && [_delegate conformsToProtocol:@protocol(MGScopeBarDelegate)]) {
+		NSInteger numGroups = [_delegate numberOfGroupsInScopeBar:self];
 
 		if (numGroups > 0) {
 			_separatorPositions = [[NSMutableArray alloc] initWithCapacity:numGroups];
@@ -163,13 +162,13 @@
 
 			int xCoord = SCOPE_BAR_H_INSET;
 			NSRect ctrlRect = NSZeroRect;
-			BOOL providesImages = [delegate respondsToSelector:@selector(scopeBar:imageForItem:inGroup:)];
+			BOOL providesImages = [_delegate respondsToSelector:@selector(scopeBar:imageForItem:inGroup:)];
 
 			for (int groupNum = 0; groupNum < numGroups; groupNum++) {
 				// Add separator if appropriate.
 				BOOL addSeparator = (groupNum > 0); // default behavior.
-				if ([delegate respondsToSelector:@selector(scopeBar:showSeparatorBeforeGroup:)]) {
-					addSeparator = [delegate scopeBar:self showSeparatorBeforeGroup:groupNum];
+				if ([_delegate respondsToSelector:@selector(scopeBar:showSeparatorBeforeGroup:)]) {
+					addSeparator = [_delegate scopeBar:self showSeparatorBeforeGroup:groupNum];
 				}
 				if (addSeparator) {
 					[_separatorPositions addObject:[NSNumber numberWithInt:xCoord]];
@@ -182,7 +181,7 @@
 				}
 
 				// Add label if appropriate.
-				NSString *groupLabel = [delegate scopeBar:self labelForGroup:groupNum];
+				NSString *groupLabel = [_delegate scopeBar:self labelForGroup:groupNum];
 				NSTextField *labelField = nil;
 				BOOL hasLabel = NO;
 				if (groupLabel && [groupLabel length] > 0) {
@@ -207,10 +206,10 @@
 				}
 
 				// Create group information for use during interaction.
-				NSArray *identifiers = [delegate scopeBar:self itemIdentifiersForGroup:groupNum];
+				NSArray *identifiers = [_delegate scopeBar:self itemIdentifiersForGroup:groupNum];
 				NSMutableArray *usedIdentifiers = [NSMutableArray arrayWithCapacity:[identifiers count]];
 				NSMutableArray *buttons = [NSMutableArray arrayWithCapacity:[identifiers count]];
-				MGScopeBarGroupSelectionMode selMode = [delegate scopeBar:self selectionModeForGroup:groupNum];
+				MGScopeBarGroupSelectionMode selMode = [_delegate scopeBar:self selectionModeForGroup:groupNum];
 				if (selMode != MGRadioSelectionMode && selMode != MGMultipleSelectionMode) {
 					// Sanity check, since this is just an int.
 					selMode = MGRadioSelectionMode;
@@ -240,10 +239,10 @@
 						continue;
 					}
 
-					NSString *title = [delegate scopeBar:self titleOfItem:itemID inGroup:groupNum];
+					NSString *title = [_delegate scopeBar:self titleOfItem:itemID inGroup:groupNum];
 					NSImage *image = nil;
 					if (providesImages) {
-						image = [delegate scopeBar:self imageForItem:itemID inGroup:groupNum];
+						image = [_delegate scopeBar:self imageForItem:itemID inGroup:groupNum];
 					}
 					NSButton *button = [self buttonForItem:itemID inGroup:groupNum withTitle:title image:image];
 
@@ -288,8 +287,8 @@
 		}
 
 		// Add accessoryView, if provided.
-		if ([delegate respondsToSelector:@selector(accessoryViewForScopeBar:)]) {
-			_accessoryView = [delegate accessoryViewForScopeBar:self];
+		if ([_delegate respondsToSelector:@selector(accessoryViewForScopeBar:)]) {
+			_accessoryView = [_delegate accessoryViewForScopeBar:self];
 			if (_accessoryView) {
 				// Remove NSViewMaxXMargin flag from resizing mask, if present.
 				NSUInteger mask = [_accessoryView autoresizingMask];
@@ -704,18 +703,18 @@
 	[button setTitle:title];
 	[[button cell] setRepresentedObject:identifier];
 	[button setTag:groupNumber];
-	[button setFont:[NSFont boldSystemFontOfSize:SCOPE_BAR_FONTSIZE]];
+	[button setFont:[NSFont boldSystemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
 	[button setTarget:self];
 	[button setAction:@selector(scopeButtonClicked:)];
 	[button setBezelStyle:NSRecessedBezelStyle];
 	[button setButtonType:NSPushOnPushOffButton];
 	[[button cell] setHighlightsBy:NSCellIsBordered | NSCellIsInsetButton];
-	[[button cell] setControlSize:NSSmallControlSize];
+	[[button cell] setControlSize:NSRegularControlSize];
 	[button setShowsBorderOnlyWhileMouseInside:YES];
 	if (image) {
-		[image setSize:NSMakeSize(SCOPE_BAR_BUTTON_IMAGE_SIZE, SCOPE_BAR_BUTTON_IMAGE_SIZE)];
-		[button setImagePosition:NSImageLeft];
+		[button setImagePosition:NSImageRight];
 		[button setImage:image];
+		[[button cell] setImageScaling:NSImageScaleProportionallyDown];
 	}
 	[button sizeToFit];
 	ctrlRect = [button frame];
@@ -928,6 +927,11 @@
 		nowSelected = ([button state] != NSOffState);
 	}
 	[self setSelected:nowSelected forItem:identifier inGroup:groupNumber];
+
+	// send the itemPressed delegate message *after* the other delegate message
+	if (_delegate != nil && [_delegate respondsToSelector:@selector(scopeBar:itemPressed:inGroup:)]) {
+		[_delegate scopeBar:self itemPressed:identifier inGroup:groupNumber];
+	}
 }
 
 
@@ -991,7 +995,7 @@
 
 	// Determine whether we can inform the delegate about this change.
 	SEL stateChangedSel = @selector(scopeBar:selectedStateChanged:forItem:inGroup:);
-	BOOL responds = (delegate && [delegate respondsToSelector:stateChangedSel]);
+	BOOL responds = (_delegate && [_delegate respondsToSelector:stateChangedSel]);
 
 	// Ensure selected status of item's control reflects desired value.
 	NSButton *button = [self getButtonForItem:identifier inGroup:groupNumber];
@@ -1014,7 +1018,7 @@
 
 	// Inform delegate about this change if possible.
 	if (inform && responds) {
-		[delegate scopeBar:self selectedStateChanged:selected forItem:identifier inGroup:groupNumber];
+		[_delegate scopeBar:self selectedStateChanged:selected forItem:identifier inGroup:groupNumber];
 	}
 }
 
@@ -1023,6 +1027,7 @@
 {
 	return [_selectedItems copy];
 }
+
 - (BOOL) isItemSelectedWithIdentifier:(NSString*)identifier inGroup:(NSInteger)groupNumber;
 {
     NSArray *identifiers = [_selectedItems objectAtIndex:groupNumber];
@@ -1031,8 +1036,8 @@
 
 - (void)setDelegate:(id)newDelegate
 {
-	if (delegate != newDelegate) {
-		delegate = newDelegate;
+	if (_delegate != newDelegate) {
+		_delegate = newDelegate;
 		[self reloadData];
 	}
 }
