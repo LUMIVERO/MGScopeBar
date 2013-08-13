@@ -65,4 +65,12 @@ typedef enum _MGScopeBarGroupSelectionMode {
 
 - (void)scopeBar:(MGScopeBar*)scopeBar itemPressed:(NSString*)identifier inGroup:(NSInteger)groupNumber;
 
+#pragma mark - Control tracking extensions
+
+@optional		// Mouse tracking protocols
+//! If the delegate implements it, it will receive notifications when the current cursor enters a control
+- (void)scopeBar:(MGScopeBar *)theScopeBar mouseDidEnterForControl:(NSControl*)control identifier:(NSString *)identifier inGroup:(NSInteger)groupNumber;
+//! If the delegate implements it, it will receive notifications when the current cursor exits a control
+- (void)scopeBar:(MGScopeBar *)theScopeBar mouseDidExitForControl:(NSControl*)control identifier:(NSString *)identifier inGroup:(NSInteger)groupNumber;
+
 @end

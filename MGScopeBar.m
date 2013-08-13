@@ -29,7 +29,7 @@
 
 #import "MGScopeBar.h"
 #import "MGRecessedPopUpButtonCell.h"
-
+#import "MGTrackingButton.h"
 
 #define SCOPE_BAR_H_INSET				8.0																		// inset on left and right
 #define SCOPE_BAR_HEIGHT				23.0																	// used in -sizeToFit
@@ -699,7 +699,7 @@
 				  withTitle:(NSString *)title image:(NSImage *)image
 {
 	NSRect ctrlRect = NSMakeRect(0, 0, 50, 20); // arbitrary size; will be resized later.
-	NSButton *button = [[NSButton alloc] initWithFrame:ctrlRect];
+	MGTrackingButton *button = [[MGTrackingButton alloc] initWithFrame:ctrlRect];
 	[button setTitle:title];
 	[[button cell] setRepresentedObject:identifier];
 	[button setTag:groupNumber];
@@ -722,6 +722,15 @@
 	[button setFrame:ctrlRect];
 
 	[self setControl:button forIdentifier:identifier inGroup:groupNumber];
+
+	// Start tracking mouse movements over the button _if_
+	// the delegate supports it.
+	// Don't bother tracking if our delegate doesn't care
+	if ([_delegate respondsToSelector:@selector(scopeBar:mouseDidEnterForControl:identifier:inGroup:)] &&
+		[_delegate respondsToSelector:@selector(scopeBar:mouseDidExitForControl:identifier:inGroup:)])
+	{
+		[button trackMouseMovementsToDelegate:self forIdentifier:identifier inGroup:groupNumber];
+	}
 
 	return button;
 }
@@ -1057,7 +1066,7 @@
 	}
 }
 
-#pragma mark - NVivo Extensions
+#pragma mark - Extensions
 
 - (CGFloat)nviTotalGroupsWidth
 {
@@ -1067,5 +1076,24 @@
 	//
 	return _totalGroupsWidth + SCOPE_BAR_H_INSET;
 }
+
+#pragma mark - Control tracking extensions
+
+-(void)controlDidEnterWithControl:(NSControl*)control identifier:(NSString*)identifier andGroupNumber:(NSInteger)groupNumber
+{
+	if ([_delegate respondsToSelector:@selector(scopeBar:mouseDidEnterForControl:identifier:inGroup:)])
+	{
+		[_delegate scopeBar:self mouseDidEnterForControl:control identifier:identifier inGroup:groupNumber];
+	}
+}
+
+-(void)controlDidExitWithControl:(NSControl*)control identifier:(NSString*)identifier andGroupNumber:(NSInteger)groupNumber
+{
+	if ([_delegate respondsToSelector:@selector(scopeBar:mouseDidExitForControl:identifier:inGroup:)])
+	{
+		[_delegate scopeBar:self mouseDidExitForControl:control identifier:identifier inGroup:groupNumber];
+	}
+}
+
 
 @end
