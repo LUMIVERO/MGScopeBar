@@ -76,4 +76,9 @@
  */
 - (CGFloat)nviTotalGroupsWidth;
 
+/**
+ * Returns relevant button/menu-item
+ */
+- (NSButton*)getButtonForItem:(NSString *)identifier inGroup:(NSInteger)groupNumber;
+
 @end
