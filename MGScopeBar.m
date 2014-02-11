@@ -106,6 +106,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _smartResizeEnabled = YES;
+		_initialIndex = 0;
 		// Everything else is reset in -reloadData.
     }
     return self;
@@ -278,7 +279,10 @@
 
 				// If this is a radio-mode group, select the first item automatically.
 				if (selMode == MGRadioSelectionMode) {
-					[self updateSelectedState:YES forItem:[identifiers objectAtIndex:0] inGroup:groupNum informDelegate:YES];
+					[self updateSelectedState:YES
+									  forItem:[identifiers objectAtIndex:_initialIndex]
+									  inGroup:groupNum
+							   informDelegate:YES];
 				}
 			}
 
