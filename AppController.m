@@ -198,10 +198,8 @@
 			return [[NSWorkspace sharedWorkspace] iconForFileType:@"png"];
 		}
 	}
-	
 	return nil;
 }
-
 
 - (NSView *)accessoryViewForScopeBar:(MGScopeBar *)scopeBar
 {

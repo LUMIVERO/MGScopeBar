@@ -29,10 +29,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import "MGScopeBarDelegateProtocol.h"
+#import "MGTrackingDelegateProtocol.h"
 
-@interface MGScopeBar : NSView {
+@interface MGScopeBar : NSView <MGTrackingDelegateProtocol> {
 @private
-	IBOutlet id <MGScopeBarDelegate, NSObject> __unsafe_unretained delegate; // weak ref.
 	NSMutableArray *_separatorPositions; // x-coords of separators, indexed by their group-number.
 	NSMutableArray *_groups; // groups of items.
 	NSView *_accessoryView; // weak ref since it's a subview.
@@ -46,6 +46,7 @@
 }
 
 @property(nonatomic, unsafe_unretained) id delegate; // should implement the MGScopeBarDelegate protocol.
+@property (nonatomic, assign) NSInteger initialIndex; // so that the initial active button can be specified
 
 - (void)reloadData; // causes the scope-bar to reload all groups/items from its delegate.
 - (void)sizeToFit; // only resizes vertically to optimum height; does not affect width.
@@ -69,5 +70,16 @@
  */
 
 - (BOOL) isItemSelectedWithIdentifier:(NSString*)identifier inGroup:(NSInteger)groupNumber;
+
+/**
+ * Returns the total width needed to show all groups as native-width popups
+ * (excluding padding and accessory).
+ */
+- (CGFloat)nviTotalGroupsWidth;
+
+/**
+ * Returns relevant button/menu-item
+ */
+- (NSButton*)getButtonForItem:(NSString *)identifier inGroup:(NSInteger)groupNumber;
 
 @end

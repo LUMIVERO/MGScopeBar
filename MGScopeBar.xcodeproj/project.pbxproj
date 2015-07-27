@@ -16,11 +16,16 @@
 		39553060162532C70003588B /* MGRecessedPopUpButtonCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C95B43CE0EB73CE3008EE468 /* MGRecessedPopUpButtonCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3955306C16253DA20003588B /* MGScopeBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C9FB61180E8FF8810019B961 /* MGScopeBar.m */; };
 		3955306D16253DA60003588B /* MGRecessedPopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C95B43CF0EB73CE3008EE468 /* MGRecessedPopUpButtonCell.m */; };
+		39644C99163E2B270005D036 /* MGScopeBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C9FB61180E8FF8810019B961 /* MGScopeBar.m */; };
+		39644C9B163E2B320005D036 /* MGRecessedPopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C95B43CF0EB73CE3008EE468 /* MGRecessedPopUpButtonCell.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		A4DA52EF1428106700A9941B /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A4DA52EE1428106700A9941B /* LICENSE */; };
 		C9FB61150E8FF8360019B961 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9FB61140E8FF8360019B961 /* AppController.m */; };
+		D5BE3C6B17B9C5A00085792E /* MGTrackingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D5BE3C6917B9C5A00085792E /* MGTrackingButton.m */; };
+		D5BE3C6C17B9C5A70085792E /* MGTrackingDelegateProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = D5BE3C6A17B9C5A00085792E /* MGTrackingDelegateProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D5BE3C6D17B9C5C00085792E /* MGTrackingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D5BE3C6917B9C5A00085792E /* MGTrackingButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +55,9 @@
 		C9FB61180E8FF8810019B961 /* MGScopeBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGScopeBar.m; sourceTree = "<group>"; };
 		C9FB61190E8FF8810019B961 /* MGScopeBarDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGScopeBarDelegateProtocol.h; sourceTree = "<group>"; };
 		C9FB61AA0E8FFE950019B961 /* ReadMe.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
+		D5BE3C6817B9C5A00085792E /* MGTrackingButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTrackingButton.h; sourceTree = "<group>"; };
+		D5BE3C6917B9C5A00085792E /* MGTrackingButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTrackingButton.m; sourceTree = "<group>"; };
+		D5BE3C6A17B9C5A00085792E /* MGTrackingDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTrackingDelegateProtocol.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +176,7 @@
 		C9FB61160E8FF8590019B961 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D5BE3C6717B9C53F0085792E /* MGScopeBar Tracking Extensions */,
 				C9FB61170E8FF8810019B961 /* MGScopeBar.h */,
 				C9FB61180E8FF8810019B961 /* MGScopeBar.m */,
 				C9FB61190E8FF8810019B961 /* MGScopeBarDelegateProtocol.h */,
@@ -175,6 +184,16 @@
 				C95B43CF0EB73CE3008EE468 /* MGRecessedPopUpButtonCell.m */,
 			);
 			name = Classes;
+			sourceTree = "<group>";
+		};
+		D5BE3C6717B9C53F0085792E /* MGScopeBar Tracking Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D5BE3C6817B9C5A00085792E /* MGTrackingButton.h */,
+				D5BE3C6917B9C5A00085792E /* MGTrackingButton.m */,
+				D5BE3C6A17B9C5A00085792E /* MGTrackingDelegateProtocol.h */,
+			);
+			name = "MGScopeBar Tracking Extensions";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,6 +206,7 @@
 				3955305E162532C70003588B /* MGScopeBar.h in Headers */,
 				3955305F162532C70003588B /* MGScopeBarDelegateProtocol.h in Headers */,
 				39553060162532C70003588B /* MGRecessedPopUpButtonCell.h in Headers */,
+				D5BE3C6C17B9C5A70085792E /* MGTrackingDelegateProtocol.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +303,7 @@
 				39553038162530A40003588B /* mgscopebar.m in Sources */,
 				3955306C16253DA20003588B /* MGScopeBar.m in Sources */,
 				3955306D16253DA60003588B /* MGRecessedPopUpButtonCell.m in Sources */,
+				D5BE3C6D17B9C5C00085792E /* MGTrackingButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +313,9 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				C9FB61150E8FF8360019B961 /* AppController.m in Sources */,
+				39644C99163E2B270005D036 /* MGScopeBar.m in Sources */,
+				39644C9B163E2B320005D036 /* MGRecessedPopUpButtonCell.m in Sources */,
+				D5BE3C6B17B9C5A00085792E /* MGTrackingButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,10 +375,10 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "mgscopebar/mgscopebar-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				LD_DYLIB_INSTALL_NAME = "@executable_path/../Frameworks/$(EXECUTABLE_PATH)";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -379,9 +403,9 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "mgscopebar/mgscopebar-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				LD_DYLIB_INSTALL_NAME = "@executable_path/../Frameworks/$(EXECUTABLE_PATH)";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -400,7 +424,6 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = MGScopeBar;
-				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -415,7 +438,6 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = MGScopeBar;
-				SDKROOT = macosx10.7;
 			};
 			name = Release;
 		};
@@ -428,9 +450,9 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				RUN_CLANG_STATIC_ANALYZER = YES;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.9;
 			};
 			name = Debug;
 		};
@@ -442,8 +464,8 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx10.9;
 			};
 			name = Release;
 		};
