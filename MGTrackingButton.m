@@ -7,6 +7,13 @@
 
 #import "MGTrackingButton.h"
 
+@interface MGTrackingButton ()
+
+//! The MGScopeBar identifier for the button
+@property (nonatomic, strong) NSString* scopebarIdentifier;
+
+@end
+
 @implementation MGTrackingButton
 
 - (id)initWithFrame:(NSRect)frame
@@ -20,10 +27,10 @@
 	return self;
 }
 
-- (void)trackMouseMovementsToDelegate:(id<MGTrackingDelegateProtocol>)delegate forIdentifier:(NSString *)identifier inGroup:(NSInteger)groupNumber
+- (void)trackMouseMovementsToDelegate:(id<MGTrackingDelegateProtocol>)delegate forIdentifier:(NSString *)scopebarIdentifier inGroup:(NSInteger)groupNumber
 {
 	[self setDelegate:delegate];
-	[self setIdentifier:identifier];
+	[self setScopebarIdentifier:scopebarIdentifier];
 	[self setGroupNumber:groupNumber];
 
 	[self updateTrackingAreas];
@@ -57,13 +64,13 @@
 //! Called via the tracking area when the cursor enters the tracking area
 - (void)mouseEntered:(NSEvent *)theEvent
 {
-	[_delegate controlDidEnterWithControl:(id)self identifier:[self identifier] andGroupNumber:[self groupNumber]];
+	[_delegate controlDidEnterWithControl:(id)self identifier:[self scopebarIdentifier] andGroupNumber:[self groupNumber]];
 }
 
 //! Called via the tracking area when the cursor leaves the tracking area
 - (void)mouseExited:(NSEvent *)theEvent
 {
-	[_delegate controlDidExitWithControl:(id)self identifier:[self identifier] andGroupNumber:[self groupNumber]];
+	[_delegate controlDidExitWithControl:(id)self identifier:[self scopebarIdentifier] andGroupNumber:[self groupNumber]];
 }
 
 @end

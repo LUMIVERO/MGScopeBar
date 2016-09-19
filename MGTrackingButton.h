@@ -23,7 +23,7 @@
 @property (nonatomic, assign) NSInteger groupNumber;
 
 //! The MGScopeBar identifier for the button
-@property (nonatomic, strong) NSString* identifier;
+@property (nonatomic, readonly) NSString* scopebarIdentifier;
 
 //! The button's mouse event delegate
 @property (nonatomic, assign) id<MGTrackingDelegateProtocol> delegate;
