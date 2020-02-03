@@ -55,6 +55,10 @@
 #define MENU_PADDING					25.0					// how much wider a popup-button is than a regular button with the same title.
 #define MENU_MIN_WIDTH					60.0					// minimum width a popup-button can be narrowed to.
 
+#define SCOPE_BAR_RIBBON_ITEM_WIDTH		76.0
+#define SCOPE_BAR_RIBBON_ITEM_HEIGHT	28.0
+#define SCOPE_BAR_RIBBON_ITEM_FONT_SIZE	12.0
+
 // NSPopUpButton titles used for groups which allow multiple selection.
 #define POPUP_TITLE_EMPTY_SELECTION		NSLocalizedString(@"(None)", nil)		// title used when no items in the popup are selected.
 #define POPUP_TITLE_MULTIPLE_SELECTION	NSLocalizedString(@"(Multiple)", nil)	// title used when multiple items in the popup are selected.
@@ -702,8 +706,63 @@
 - (NSButton *)buttonForItem:(NSString *)identifier inGroup:(NSInteger)groupNumber
 				  withTitle:(NSString *)title image:(NSImage *)image
 {
+	if (image)
+	{
+		// Customize for ribbon button item
+		return [self imageButtonForItem:identifier
+								inGroup:groupNumber
+							  withTitle:title
+								  image:image];
+	}
+
+	return [self trackingButtonForItem:identifier
+							   inGroup:groupNumber
+							 withTitle:title];
+
+}
+
+//! Return an image button for ribbon
+- (NSButton *)imageButtonForItem:(NSString *)identifier
+						 inGroup:(NSInteger)groupNumber
+					   withTitle:(NSString *)title
+						   image:(NSImage *)image
+{
+	NSRect ctrlRect = NSMakeRect(0, 0,
+								 SCOPE_BAR_RIBBON_ITEM_WIDTH,
+								 SCOPE_BAR_RIBBON_ITEM_HEIGHT);
+
+	NSButton *button = [[NSButton alloc] initWithFrame:ctrlRect];
+	NSButtonCell *cell = [button cell];
+
+	[button setTitle:title];
+	[button setTag:groupNumber];
+	[button setFont:[NSFont systemFontOfSize:SCOPE_BAR_RIBBON_ITEM_FONT_SIZE]];
+	[button setTarget:self];
+	[button setAction:@selector(scopeButtonClicked:)];
+	[button setBezelStyle:NSInlineBezelStyle];
+	[button setButtonType:NSToggleButton];
+
+	[cell setRepresentedObject:identifier];
+	[cell setImagePosition:NSImageOverlaps];
+
+	// Set selected image to highlight ribbon item when selected
+	[cell setBordered:NO];
+	[cell setImage:nil];
+	[cell setAlternateImage:image];
+
+	[self setControl:button forIdentifier:identifier inGroup:groupNumber];
+
+	return button;
+}
+
+//! Return tracking hover button for other items
+- (NSButton *)trackingButtonForItem:(NSString *)identifier
+							inGroup:(NSInteger)groupNumber
+						  withTitle:(NSString *)title
+{
 	NSRect ctrlRect = NSMakeRect(0, 0, 50, 20); // arbitrary size; will be resized later.
 	MGTrackingButton *button = [[MGTrackingButton alloc] initWithFrame:ctrlRect];
+
 	[button setTitle:title];
 	[[button cell] setRepresentedObject:identifier];
 	[button setTag:groupNumber];
@@ -715,17 +774,11 @@
 	[[button cell] setHighlightsBy:NSCellIsBordered | NSCellIsInsetButton];
 	[[button cell] setControlSize:NSRegularControlSize];
 	[button setShowsBorderOnlyWhileMouseInside:YES];
-	if (image) {
-		[button setImagePosition:NSImageRight];
-		[button setImage:image];
-		[[button cell] setImageScaling:NSImageScaleProportionallyDown];
-	}
+
 	[button sizeToFit];
 	ctrlRect = [button frame];
 	ctrlRect.origin.y = floor(([self frame].size.height - ctrlRect.size.height) / 2.0);
 	[button setFrame:ctrlRect];
-
-	[self setControl:button forIdentifier:identifier inGroup:groupNumber];
 
 	// Start tracking mouse movements over the button _if_
 	// the delegate supports it.
@@ -733,8 +786,12 @@
 	if ([_delegate respondsToSelector:@selector(scopeBar:mouseDidEnterForControl:identifier:inGroup:)] &&
 		[_delegate respondsToSelector:@selector(scopeBar:mouseDidExitForControl:identifier:inGroup:)])
 	{
-		[button trackMouseMovementsToDelegate:self forIdentifier:identifier inGroup:groupNumber];
+		[(MGTrackingButton*)button trackMouseMovementsToDelegate:self
+												   forIdentifier:identifier
+														 inGroup:groupNumber];
 	}
+
+	[self setControl:button forIdentifier:identifier inGroup:groupNumber];
 
 	return button;
 }
