@@ -742,6 +742,21 @@
 	[button setBezelStyle:NSInlineBezelStyle];
 	[button setButtonType:NSToggleButton];
 
+	if (@available(macOS 10.14, *))
+	{
+		NSColor* foregroundColor = [NSColor colorNamed:@"ribbon-title-color"];
+
+		NSMutableAttributedString* attributedTitle = [[NSMutableAttributedString alloc] initWithString:title];
+
+		[attributedTitle addAttribute:NSForegroundColorAttributeName
+								value:foregroundColor
+								range:NSMakeRange(0, [title length])];
+
+		[button setAttributedTitle:attributedTitle];
+
+		[button setContentTintColor:foregroundColor];
+	}
+
 	[cell setRepresentedObject:identifier];
 	[cell setImagePosition:NSImageOverlaps];
 
