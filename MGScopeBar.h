@@ -45,8 +45,10 @@
 	BOOL _smartResizeEnabled; // whether to do our clever collapsing/expanding of buttons when resizing (Smart Resizing).
 }
 
-@property(nonatomic, unsafe_unretained) id delegate; // should implement the MGScopeBarDelegate protocol.
+@property (nonatomic, unsafe_unretained) id delegate; // should implement the MGScopeBarDelegate protocol.
 @property (nonatomic, assign) NSInteger initialIndex; // so that the initial active button can be specified
+
+@property (nonatomic, assign) BOOL ribbonMode; // turn this on to layout specific scopebar for ribbon
 
 - (void)reloadData; // causes the scope-bar to reload all groups/items from its delegate.
 - (void)sizeToFit; // only resizes vertically to optimum height; does not affect width.

@@ -706,7 +706,7 @@
 - (NSButton *)buttonForItem:(NSString *)identifier inGroup:(NSInteger)groupNumber
 				  withTitle:(NSString *)title image:(NSImage *)image
 {
-	if (image)
+	if ([self ribbonMode])
 	{
 		// Customize for ribbon button item
 		return [self imageButtonForItem:identifier
@@ -716,6 +716,7 @@
 	}
 
 	return [self trackingButtonForItem:identifier
+								 image:image
 							   inGroup:groupNumber
 							 withTitle:title];
 
@@ -772,6 +773,7 @@
 
 //! Return tracking hover button for other items
 - (NSButton *)trackingButtonForItem:(NSString *)identifier
+							  image:(NSImage *)image
 							inGroup:(NSInteger)groupNumber
 						  withTitle:(NSString *)title
 {
@@ -790,10 +792,18 @@
 	[[button cell] setControlSize:NSRegularControlSize];
 	[button setShowsBorderOnlyWhileMouseInside:YES];
 
+	if (image)
+	{
+		[button setImagePosition:NSImageRight];
+		[button setImage:image];
+		[[button cell] setImageScaling:NSImageScaleProportionallyDown];
+	}
+
 	[button sizeToFit];
 	ctrlRect = [button frame];
 	ctrlRect.origin.y = floor(([self frame].size.height - ctrlRect.size.height) / 2.0);
 	[button setFrame:ctrlRect];
+
 
 	// Start tracking mouse movements over the button _if_
 	// the delegate supports it.
