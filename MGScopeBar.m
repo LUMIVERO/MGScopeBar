@@ -734,29 +734,28 @@
 
 	NSButton *button = [[NSButton alloc] initWithFrame:ctrlRect];
 	NSButtonCell *cell = [button cell];
+	NSFont *ribbonFont = [NSFont systemFontOfSize:12];
+	NSColor *textColor = [NSColor colorWithRed:0.023 green:0.1 blue:0.16 alpha:0.95];
 
-	[button setTitle:title];
 	[button setTag:groupNumber];
-	[button setFont:[NSFont systemFontOfSize:SCOPE_BAR_RIBBON_ITEM_FONT_SIZE]];
 	[button setTarget:self];
 	[button setAction:@selector(scopeButtonClicked:)];
 	[button setBezelStyle:NSInlineBezelStyle];
 	[button setButtonType:NSToggleButton];
 
-	if (@available(macOS 10.14, *))
-	{
-		NSColor* foregroundColor = [NSColor colorNamed:@"ribbon-title-color"];
+	NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:title];
+	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+	paragraphStyle.alignment = NSTextAlignmentCenter;
 
-		NSMutableAttributedString* attributedTitle = [[NSMutableAttributedString alloc] initWithString:title];
+	NSDictionary* dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+								textColor, NSForegroundColorAttributeName,
+								ribbonFont, NSFontAttributeName,
+								paragraphStyle, NSParagraphStyleAttributeName, nil];
 
-		[attributedTitle addAttribute:NSForegroundColorAttributeName
-								value:foregroundColor
-								range:NSMakeRange(0, [title length])];
+	[attributedTitle addAttributes:dictionary
+							 range:NSMakeRange(0, [title length])];
 
-		[button setAttributedTitle:attributedTitle];
-
-		[button setContentTintColor:foregroundColor];
-	}
+	[button setAttributedTitle:attributedTitle];
 
 	[cell setRepresentedObject:identifier];
 	[cell setImagePosition:NSImageOverlaps];
