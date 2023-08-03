@@ -258,7 +258,7 @@
 				LastUpgradeCheck = 0830;
 				TargetAttributes = {
 					3955302B162530A40003588B = {
-						DevelopmentTeam = A66L57342X;
+						DevelopmentTeam = 8F4S7H8S59;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -368,6 +368,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = A66L57342X;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = 8F4S7H8S59;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -406,6 +407,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = A66L57342X;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = 8F4S7H8S59;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
