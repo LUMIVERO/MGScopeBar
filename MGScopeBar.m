@@ -449,9 +449,6 @@
 	}
 
 	if (proceed) {
-		// Disable screen updates.
-		NSDisableScreenUpdates();
-
 		// See how many further groups we can expand or contract.
 		float theoreticalOccupiedWidth = currentOccupiedWidth;
 		for (NSDictionary *groupInfo in groupsEnumerator) {
@@ -671,9 +668,6 @@
 				}
 			}
 		}
-
-		// Re-enable screen updates.
-		NSEnableScreenUpdates();
 	}
 
 	// Take note of our width for comparison next time.
@@ -782,13 +776,13 @@
 	[button setTitle:title];
 	[[button cell] setRepresentedObject:identifier];
 	[button setTag:groupNumber];
-	[button setFont:[NSFont boldSystemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+	[button setFont:[NSFont boldSystemFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]]];
 	[button setTarget:self];
 	[button setAction:@selector(scopeButtonClicked:)];
 	[button setBezelStyle:NSRecessedBezelStyle];
 	[button setButtonType:NSPushOnPushOffButton];
 	[[button cell] setHighlightsBy:NSCellIsBordered | NSCellIsInsetButton];
-	[[button cell] setControlSize:NSRegularControlSize];
+	[[button cell] setControlSize:NSControlSizeRegular];
 	[button setShowsBorderOnlyWhileMouseInside:YES];
 
 	if (image)
@@ -1042,8 +1036,6 @@
 		BOOL informDelegate = YES;
 
 		if (group) {
-			NSDisableScreenUpdates();
-
 			// We found the group which this item belongs to. Obtain selection-mode and identifiers.
 			MGScopeBarGroupSelectionMode selMode = [[group objectForKey:GROUP_SELECTION_MODE] intValue];
 			BOOL radioMode = (selMode == MGRadioSelectionMode);
@@ -1074,8 +1066,6 @@
 			if ([[group objectForKey:GROUP_MENU_MODE] boolValue]) {
 				[self updateMenuTitleForGroupAtIndex:groupNumber];
 			}
-
-			NSEnableScreenUpdates();
 		}
 	}
 }
