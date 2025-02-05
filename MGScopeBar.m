@@ -55,7 +55,7 @@
 #define MENU_PADDING					25.0					// how much wider a popup-button is than a regular button with the same title.
 #define MENU_MIN_WIDTH					60.0					// minimum width a popup-button can be narrowed to.
 
-#define SCOPE_BAR_RIBBON_ITEM_WIDTH		76.0
+#define SCOPE_BAR_RIBBON_ITEM_PADDING	16.0					// Padding to the left and right of a ribbon item’s title.
 #define SCOPE_BAR_RIBBON_ITEM_HEIGHT	28.0
 #define SCOPE_BAR_RIBBON_ITEM_FONT_SIZE	12.0
 
@@ -722,42 +722,73 @@
 					   withTitle:(NSString *)title
 						   image:(NSImage *)image
 {
-	NSRect ctrlRect = NSMakeRect(0, 0,
-								 SCOPE_BAR_RIBBON_ITEM_WIDTH,
-								 SCOPE_BAR_RIBBON_ITEM_HEIGHT);
-
-	NSButton *button = [[NSButton alloc] initWithFrame:ctrlRect];
-	NSButtonCell *cell = [button cell];
-	NSFont *ribbonFont = [NSFont systemFontOfSize:12];
+	// Create attributed title first since we need it to size the button correctly.
+	// `sizeToFit` does not seem to work in this case.
+	NSFont *ribbonFont = [NSFont systemFontOfSize:SCOPE_BAR_RIBBON_ITEM_FONT_SIZE];
 	NSColor *textColor = [NSColor colorWithRed:0.023 green:0.1 blue:0.16 alpha:0.95];
-
-	[button setTag:groupNumber];
-	[button setTarget:self];
-	[button setAction:@selector(scopeButtonClicked:)];
-	[button setBezelStyle:NSInlineBezelStyle];
-	[button setButtonType:NSToggleButton];
-
-	NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:title];
 	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 	paragraphStyle.alignment = NSTextAlignmentCenter;
 
-	NSDictionary* dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+	NSDictionary* attributes = [NSDictionary dictionaryWithObjectsAndKeys:
 								textColor, NSForegroundColorAttributeName,
 								ribbonFont, NSFontAttributeName,
 								paragraphStyle, NSParagraphStyleAttributeName, nil];
 
-	[attributedTitle addAttributes:dictionary
-							 range:NSMakeRange(0, [title length])];
+	NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title
+																		  attributes:attributes];
+	NSSize titleSize = [attributedTitle size];
+
+	NSRect ctrlRect = NSMakeRect(0, 0,
+								 ceil(titleSize.width) + 2 * SCOPE_BAR_RIBBON_ITEM_PADDING,
+								 SCOPE_BAR_RIBBON_ITEM_HEIGHT);
+
+	NSButton *button = [[NSButton alloc] initWithFrame:ctrlRect];
+	NSButtonCell *cell = [button cell];
+
+	[button setTag:groupNumber];
+	[button setTarget:self];
+	[button setAction:@selector(scopeButtonClicked:)];
+	[button setBezelStyle:NSBezelStyleInline];
+	[button setButtonType:NSToggleButton];
 
 	[button setAttributedTitle:attributedTitle];
 
 	[cell setRepresentedObject:identifier];
-	[cell setImagePosition:NSImageOverlaps];
 
+	// Create properly sized copy of image used as background for selected item.
+	NSSize newSize = NSMakeSize(ctrlRect.size.width, ctrlRect.size.height);
+	NSImage *newImage = [[NSImage alloc] initWithSize:newSize];
+
+	[newImage lockFocus];
+	
+	NSRect targetRect = NSMakeRect(0, 0, newSize.width, newSize.height);
+	
+	// Actually draw a three-part image for the ribbon background.
+	// We detect this here because we don’t want to change the `MGScopeBar` API at this time.
+	if ([image.name isEqualToString:@"ribbon-selected-background"]) {
+		NSDrawThreePartImage(targetRect,
+							 [NSImage imageNamed:@"ribbon-selected-background-start"],
+							 [NSImage imageNamed:@"ribbon-selected-background-center"],
+							 [NSImage imageNamed:@"ribbon-selected-background-end"],
+							 NO,
+							 NSCompositingOperationSourceOver,
+							 1.0,
+							 NO);
+	}
+	else {
+		[image drawInRect:targetRect
+				 fromRect:NSZeroRect
+				operation:NSCompositingOperationSourceOver
+				 fraction:1.0];
+	}
+	
+	[newImage unlockFocus];
+	
 	// Set selected image to highlight ribbon item when selected
 	[cell setBordered:NO];
+	[cell setImagePosition:NSImageOverlaps];
 	[cell setImage:nil];
-	[cell setAlternateImage:image];
+	[cell setAlternateImage:newImage];
 
 	[self setControl:button forIdentifier:identifier inGroup:groupNumber];
 
